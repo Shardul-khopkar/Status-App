@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f4efe6">
+    <meta name="description" content="A little space for me and her to share our day.">
+    <title>StepWise | Just Us</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="StepWise home">
+          <span class="brand-mark" aria-hidden="true">♥</span>
+          <span class="brand-copy"><strong>StepWise</strong><small>Just us</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="privacy-label"><span class="privacy-dot"></span> Just us</span>
+          <button id="logout-button" class="text-button" type="button" hidden>Sign out</button>
+        </div>
+      </header>
+
+      <section id="login-view" class="auth-view" aria-labelledby="login-heading">
+        <div class="auth-intro">
+          <p class="eyebrow">JUST US</p>
+          <h1 id="login-heading">Hey you,<br>here’s my little update.</h1>
+          <p class="intro-copy">A tiny way for me to tell you what I’m up to, and see how your day’s going.</p>
+          <div class="intimacy-note"><span aria-hidden="true">♥</span><span>Our little updates are just between us.</span></div>
+        </div>
+        <form id="login-form" class="form-panel">
+          <label for="account-nickname">Who’s here?</label>
+          <select id="account-nickname" name="nickname" autocomplete="username">
+            <option value="Shawarma">Shawarma</option>
+            <option value="Vada Pav">Vada Pav</option>
+          </select>
+          <label for="account-password">Password</label>
+          <input id="account-password" name="password" type="password" autocomplete="current-password" required>
+          <p id="login-error" class="form-error" role="alert"></p>
+          <button class="primary-button" type="submit">Let me in <span aria-hidden="true">→</span></button>
+          <p class="form-footnote">Pick your name and use your Firebase password.</p>
+        </form>
+      </section>
+
+      <section id="app-view" class="status-view" hidden>
+        <div class="welcome-row">
+          <div><p class="eyebrow">JUST US</p><h1>Hey, <span id="my-nickname">there</span> ♥</h1></div>
+          <span class="today-label" id="today-label"></span>
+        </div>
+
+        <section class="partner-band" aria-labelledby="partner-title">
+          <div class="partner-avatar" aria-hidden="true">♥</div>
+          <div class="partner-details">
+            <div class="partner-meta"><h2 id="partner-title"><span id="partner-nickname">Vada Pav</span></h2><span class="live-label"><i></i> FROM <span id="partner-source">VADA PAV</span></span></div>
+            <div class="partner-current"><span id="partner-emoji" class="status-emoji" aria-hidden="true">💭</span><p id="partner-status">Tell me how your day’s going</p></div>
+            <p id="partner-updated" class="updated-label">You told me just now</p>
+          </div>
+          <span class="sparkle" aria-hidden="true">✳</span>
+        </section>
+
+        <section class="my-status-section" aria-labelledby="my-status-heading">
+          <div class="section-heading">
+            <div><p id="my-status-owner" class="eyebrow">FROM ME</p><h2 id="my-status-heading">My update for her</h2></div>
+              <p id="my-status-summary" class="my-status-summary">Pick a little update</p>
+          </div>
+          <div id="preset-grid" class="preset-grid" aria-label="Status choices"></div>
+          <div class="custom-row">
+            <button id="custom-toggle" class="custom-button" type="button"><span aria-hidden="true">＋</span> Write a little note for <span id="custom-recipient">Vada Pav</span></button>
+          </div>
+          <div id="custom-fields" class="custom-fields" hidden>
+            <label for="custom-text">My little note <span>60 characters max</span></label>
+            <input id="custom-text" type="text" maxlength="60" placeholder="Tell her what I’m up to…">
+            <p class="picker-label">Add an emoji</p>
+            <div id="emoji-picker" class="emoji-picker" aria-label="Choose an emoji"></div>
+          </div>
+          <div class="save-row"><p>Just for the two of us.</p><button id="save-status" class="primary-button" type="button"><span id="save-status-label">Send to Vada Pav</span> <span aria-hidden="true">→</span></button></div>
+        </section>
+
+        <section class="history-section" aria-labelledby="history-heading">
+          <div class="section-heading"><div><p class="eyebrow">LITTLE MOMENTS</p><h2 id="history-heading">Notes I’ve sent you</h2></div><span class="history-limit">Last 20</span></div>
+          <ol id="history-list" class="history-list"><li class="empty-history">The little things I’ve told you will show up here.</li></ol>
+        </section>
+
+        <section class="settings-row" aria-labelledby="settings-heading">
+          <div><p class="eyebrow">A LITTLE NUDGE</p><h2 id="settings-heading">When you update</h2><p class="settings-copy">Let me know when you change your status while I’m here.</p></div>
+          <label class="switch-label"><span id="notification-state">Off</span><input id="notifications-toggle" type="checkbox" role="switch" aria-label="Let me know when my person updates"><span class="switch-track"><span></span></span></label>
+        </section>
+        <footer class="app-footer">StepWise · Just you and me</footer>
+      </section>
+
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    </main>
+    <script type="module" src="./app.js?v=firestore-error-20261002"></script>
+  </body>
+</html>

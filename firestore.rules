@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOneOfTwo() {
+      return signedIn() && request.auth.uid in [
+        '2cISJm6sSneNq12j63ZlSRPGeiK2',
+        't1k4OPKO4KfySLbiwtNiuzJOaqt2'
+      ];
+    }
+
+    function validStatus() {
+      return request.resource.data.keys().hasAll(['emoji', 'text', 'preset', 'updatedAt', 'history'])
+        && request.resource.data.keys().hasOnly(['emoji', 'text', 'preset', 'updatedAt', 'history'])
+        && request.resource.data.emoji is string
+        && request.resource.data.emoji.size() > 0
+        && request.resource.data.emoji.size() <= 16
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 60
+        && request.resource.data.preset is bool
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.history is list
+        && request.resource.data.history.size() <= 20;
+    }
+
+    match /profiles/{userId} {
+      allow read: if isOneOfTwo() && userId in [
+        '2cISJm6sSneNq12j63ZlSRPGeiK2',
+        't1k4OPKO4KfySLbiwtNiuzJOaqt2'
+      ];
+      allow create, update: if isOneOfTwo()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['nickname'])
+        && request.resource.data.nickname is string
+        && request.resource.data.nickname.size() > 0
+        && request.resource.data.nickname.size() <= 24;
+      allow delete: if false;
+    }
+
+    match /users/{userId}/status/{statusId} {
+      allow get, list: if isOneOfTwo()
+        && userId in ['2cISJm6sSneNq12j63ZlSRPGeiK2', 't1k4OPKO4KfySLbiwtNiuzJOaqt2']
+        && request.auth.uid != userId
+        && statusId == 'current';
+      allow create, update: if isOneOfTwo()
+        && request.auth.uid == userId
+        && statusId == 'current'
+        && validStatus();
+      allow delete: if false;
+    }
+  }
+}
